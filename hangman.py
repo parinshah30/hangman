@@ -7,18 +7,12 @@
       |
 =========
 '''
+import os
+import random
 
-import numpy as np
-
-#display_matrix = np.zeros(72).reshape((8,9))
+wrong_guess = 0
 display_matrix = [[" " for x in range(8)] for x in range(9)]
-
-
 def init_hangman():
-#    for x in np.nditer(display_matrix, op_flags=['readwrite']):
-#        x[...] = 100
-#        print x
-
     display_matrix[2][2] = '+'
     display_matrix[2][3] = '-'
     display_matrix[2][4] = '-'
@@ -38,59 +32,80 @@ def init_hangman():
     display_matrix[8][5] = '='
     display_matrix[8][6] = '='
     display_matrix[8][7] = '='
-#    display_matrix[2][4] = '+'
-#    display_matrix[2][4] = '+'
-    print display_matrix
 
 
 def display_hangman():
     for x in display_matrix:
-        for y in x:
-            print y,
-        print
+        print "".join(x)
 
-word = 'cat'
+word = random.choice(['cat', 'elephant', 'lion'])
 missed = []
 guessed = []
 
+def check_answer():
+    return word == "".join(guessed)
+
 def init_guessed():
     for x in word:
-        guessed.append("_ ")
-#    guessed = list(guessed)
-    print "Guessed letters: %s" % "".join(guessed)
-        
+        guessed.append("_")
+
 def display_missed():
     print "Missed letters: ", " ".join([x for x in missed])
 
-def display_choice():
-    pass
-
 def display_guessed():
-    print "Guessed letters: %s" % "".join(guessed)
+    print "Guessed letters: %s" % " ".join(guessed)
 
 def find_input_in_word(in_char):
+    global wrong_guess
+    find = 0
+    if guessed.count(in_char) or missed.count(in_char):
+        print "Character already tried. Try something else"
+        return 0
     for i, x in enumerate(word):
         if x == in_char:
-            guessed[i] = in_char + " "
+            guessed[i] = in_char
+            find = 1
+
+    if not find:
+        missed.append(in_char)
+        wrong_guess += 1
+        edit_hangman()
+
+    return find
+
+def edit_hangman():
+    if wrong_guess == 1:
+        display_matrix[4][2] = 'O'
+    elif wrong_guess == 2:
+        display_matrix[5][2] = '|'
+    elif wrong_guess == 3:
+        display_matrix[5][1] = '/'
+    elif wrong_guess == 4:
+        display_matrix[5][3] = '\\'
+    elif wrong_guess == 5:
+        display_matrix[6][1] = '/'
+    elif wrong_guess == 6:
+        display_matrix[6][3] = '\\'
 
 
+os.system("clear")
 init_hangman()
 init_guessed()
 display_hangman()
 display_missed()
 display_guessed()
-display_choice()
 
-guess = 0
 
-while guess < 6:
+while wrong_guess < 6:
     in_char = raw_input("Input the next character: ")
-    guess += 1
-    find_input_in_word(in_char)
+    if in_char.strip() and in_char.isalpha():
+        right_guess = find_input_in_word(in_char)
 
-
+    os.system("clear")
     display_hangman()
     display_missed()
     display_guessed()
-    display_choice()
+    if check_answer():
+        print "YOU WIN!!!"
+        break
 
