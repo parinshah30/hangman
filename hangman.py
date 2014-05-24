@@ -87,8 +87,11 @@ def edit_hangman():
     elif wrong_guess == 6:
         display_matrix[6][3] = '\\'
 
+def banner():
+    print " -- H A N G M A N --"
 
 os.system("clear")
+banner()
 init_hangman()
 init_guessed()
 display_hangman()
@@ -102,6 +105,7 @@ while wrong_guess < 6:
         right_guess = find_input_in_word(in_char)
 
     os.system("clear")
+    banner()
     display_hangman()
     display_missed()
     display_guessed()
