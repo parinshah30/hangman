@@ -54,6 +54,11 @@ missed = ""
 def display_missed():
     print "Missed letters: ", " ".join([x for x in missed])
 
+def display_guessed():
+    pass
+def display_choice():
+    pass
+
 init_hangman()
 display_hangman()
 display_missed()
