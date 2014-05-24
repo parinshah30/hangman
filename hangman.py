@@ -50,19 +50,47 @@ def display_hangman():
         print
 
 word = 'cat'
-missed = ""
+missed = []
+guessed = []
+
+def init_guessed():
+    for x in word:
+        guessed.append("_ ")
+#    guessed = list(guessed)
+    print "Guessed letters: %s" % "".join(guessed)
+        
 def display_missed():
     print "Missed letters: ", " ".join([x for x in missed])
-
-
-def display_guessed():
-    pass
 
 def display_choice():
     pass
 
+def display_guessed():
+    print "Guessed letters: %s" % "".join(guessed)
+
+def find_input_in_word(in_char):
+    for i, x in enumerate(word):
+        if x == in_char:
+            guessed[i] = in_char + " "
+
+
 init_hangman()
+init_guessed()
 display_hangman()
 display_missed()
 display_guessed()
 display_choice()
+
+guess = 0
+
+while guess < 6:
+    in_char = raw_input("Input the next character: ")
+    guess += 1
+    find_input_in_word(in_char)
+
+
+    display_hangman()
+    display_missed()
+    display_guessed()
+    display_choice()
+
