@@ -1,3 +1,5 @@
+# ascii
+
 '''
   +---+
   |   |
@@ -10,6 +12,7 @@
 import os
 import random
 
+# assets
 wrong_guess = 0
 display_matrix = [[" " for x in range(8)] for x in range(9)]
 def init_hangman():
@@ -41,7 +44,7 @@ def display_hangman():
 word = random.choice(['cat', 'elephant', 'lion'])
 missed = []
 guessed = []
-
+# logic
 def check_answer():
     return word == "".join(guessed)
 
@@ -86,6 +89,8 @@ def edit_hangman():
         display_matrix[6][1] = '/'
     elif wrong_guess == 6:
         display_matrix[6][3] = '\\'
+
+# banner
 
 def banner():
     print " -- H A N G M A N --"
